@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Cron Job: Daily Compliance Status Re-evaluation -->
+    <record id="ir_cron_recompute_compliance_status" model="ir.cron">
+        <field name="name">Product Compliance: Daily Status Re-evaluation</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_recompute_compliance_status()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+</odoo>

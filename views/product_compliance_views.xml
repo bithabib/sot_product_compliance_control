@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<odoo>
+    <!-- Compliance Type Views -->
+    <record id="product_compliance_type_form_view" model="ir.ui.view">
+        <field name="name">product.compliance.type.form</field>
+        <field name="model">product.compliance.type</field>
+        <field name="arch" type="xml">
+            <form string="Compliance Type">
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Compliance Name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g., Test Reports, Labeling, Tracking on Item"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="active" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_compliance_type_list_view" model="ir.ui.view">
+        <field name="name">product.compliance.type.list</field>
+        <field name="model">product.compliance.type</field>
+        <field name="arch" type="xml">
+            <list string="Compliance Types" editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="product_compliance_type_search_view" model="ir.ui.view">
+        <field name="name">product.compliance.type.search</field>
+        <field name="model">product.compliance.type</field>
+        <field name="arch" type="xml">
+            <search string="Compliance Types">
+                <field name="name"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Product Template Compliance Tab -->
+    <record id="product_template_compliance_form_view" model="ir.ui.view">
+        <field name="name">product.template.compliance.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="after">
+                <page name="compliance" string="Compliance Control">
+                    <group>
+                        <group>
+                            <field name="test_date"/>
+                            <field name="tracking_date"/>
+                        </group>
+                        <group>
+                            <field name="compliance_note"/>
+                        </group>
+                    </group>
+                    <field name="compliance_line_ids">
+                        <list string="Compliance Checklist" editable="bottom">
+                            <field name="compliance_type_id"/>
+                            <field name="status"/>
+                            <field name="notes"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Product Template List View - Add Compliance Status -->
+    <record id="product_template_compliance_list_view" model="ir.ui.view">
+        <field name="name">product.template.compliance.list</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="compliance_status" widget="badge"
+                    decoration-success="compliance_status == 'approved'"
+                    decoration-warning="compliance_status == 'warning'"
+                    decoration-danger="compliance_status == 'not_approved'"
+                    decoration-muted="compliance_status == 'no_compliance'"
+                    optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Product Template Kanban View - Add Compliance Status -->
+    <record id="product_template_compliance_kanban_view" model="ir.ui.view">
+        <field name="name">product.template.compliance.kanban</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <field name="compliance_status"/>
+            </xpath>
+            <xpath expr="//t[@t-name='card']/main" position="inside">
+                <div class="mt-1">
+                    <span t-if="record.compliance_status.raw_value == 'approved'"
+                          class="badge text-bg-success">Approved</span>
+                    <span t-if="record.compliance_status.raw_value == 'warning'"
+                          class="badge text-bg-warning">Warning</span>
+                    <span t-if="record.compliance_status.raw_value == 'not_approved'"
+                          class="badge text-bg-danger">Not Approved</span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Product Template Search View - Add Compliance Filter -->
+    <record id="product_template_compliance_search_view" model="ir.ui.view">
+        <field name="name">product.template.compliance.search</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter string="Compliance Approved" name="compliance_approved"
+                        domain="[('compliance_status', '=', 'approved')]"/>
+                <filter string="Compliance Warning" name="compliance_warning"
+                        domain="[('compliance_status', '=', 'warning')]"/>
+                <filter string="Compliance Not Approved" name="compliance_not_approved"
+                        domain="[('compliance_status', '=', 'not_approved')]"/>
+                <filter string="No Compliance" name="no_compliance"
+                        domain="[('compliance_status', '=', 'no_compliance')]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

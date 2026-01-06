@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Default Compliance Types -->
+    <record id="compliance_type_test_reports" model="product.compliance.type">
+        <field name="name">Test Reports</field>
+    </record>
+
+    <record id="compliance_type_labeling" model="product.compliance.type">
+        <field name="name">Labeling</field>
+    </record>
+
+    <record id="compliance_type_tracking_on_item" model="product.compliance.type">
+        <field name="name">Tracking on Item</field>
+    </record>
+</odoo>

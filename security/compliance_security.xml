@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Compliance Notification Group -->
+    <record id="group_compliance_notification" model="res.groups">
+        <field name="name">Compliance Notifications</field>
+    </record>
+</odoo>

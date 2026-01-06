@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Email Template for Compliance Status Change -->
+        <record id="email_template_compliance_status_change" model="mail.template">
+            <field name="name">Compliance Status Change Alert</field>
+            <field name="model_id" ref="product.model_product_template"/>
+            <field name="subject">Compliance Alert: {{ object.name }} - Status Changed to Not Approved</field>
+            <field name="email_from">{{ (object.company_id.email or user.email) }}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px; font-size: 14px;">
+                    <p style="margin: 0px 0px 16px 0px;">Hello,</p>
+
+                    <p style="margin: 0px 0px 16px 0px;">
+                        The compliance status for the following product has changed from
+                        <span style="color: #28a745; font-weight: bold;">Approved</span> to
+                        <span style="color: #dc3545; font-weight: bold;">Not Approved</span>:
+                    </p>
+
+                    <table style="border-collapse: collapse; margin: 16px 0px;">
+                        <tr>
+                            <td style="padding: 8px 16px 8px 0px; font-weight: bold;">Product:</td>
+                            <td style="padding: 8px 0px;"><t t-out="object.name or ''">Product Name</t></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px 16px 8px 0px; font-weight: bold;">Internal Reference:</td>
+                            <td style="padding: 8px 0px;"><t t-out="object.default_code or 'N/A'">N/A</t></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px 16px 8px 0px; font-weight: bold;">Test Date:</td>
+                            <td style="padding: 8px 0px;"><t t-out="object.test_date or 'N/A'">N/A</t></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px 16px 8px 0px; font-weight: bold;">Tracking Date:</td>
+                            <td style="padding: 8px 0px;"><t t-out="object.tracking_date or 'N/A'">N/A</t></td>
+                        </tr>
+                    </table>
+
+                    <p style="margin: 16px 0px;">Please review the product compliance information.</p>
+
+                    <p style="margin: 16px 0px 0px 0px;">
+                        Best regards,<br/>
+                        Odoo Compliance System
+                    </p>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>
