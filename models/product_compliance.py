@@ -156,7 +156,7 @@ class ProductTemplate(models.Model):
             raise_if_not_found=False
         )
         if compliance_group:
-            for user in compliance_group.user_ids:
+            for user in compliance_group.users:
                 if user.email and user.email not in emails_to_notify:
                     emails_to_notify.append(user.email)
 
